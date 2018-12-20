@@ -1,8 +1,14 @@
 import React,{Component,Fragment} from "react"
 import {connect} from 'react-redux'
+import {
+    get_data_action
+}
+from "../action/actionCreator";
 import "../css/movie.css"
 class Movie extends Component{
     render(){
+        let {Movie_item} = this.props
+        console.log(Movie_item)
         return(
             <Fragment>
             <div className="movie">
@@ -27,44 +33,46 @@ class Movie extends Component{
         </div>
        
        <div className="content-list">
-            <div>
-                <p>- 影视 -</p>
-                <p>
-                    <a href="http://m.wufazhuce.com/movie/1202">豆瓣9.9，再也找不到比它评价更牛的剧了</a>
-                </p>
-                <p>文／鱼叔</p>
-                
-                <div>
-                    <img className="lazy_img resize_img img_center_x" data-src="http://image.wufazhuce.com/FnZIoKcBRCYN7r7e25vGyJuNTgdu" src="http://image.wufazhuce.com/FnZIoKcBRCYN7r7e25vGyJuNTgdu"/>
-                </div>
-                <p>到底是谁没打满分!？这剧都拿不到满分，观众也太严格了吧？</p>
-                <p>——关于《瑞克和莫蒂 第三季》</p>
-                <p>2017/10/31</p>
-            </div>
-            <div>
-                <p>- 影视 -</p>
-                <p>
-                    <a href="http://m.wufazhuce.com/movie/1202">豆瓣9.9，再也找不到比它评价更牛的剧了</a>
-                </p>
-                <p>文／鱼叔</p>
-                
-                <div>
-                    <img className="lazy_img resize_img img_center_x" data-src="http://image.wufazhuce.com/FnZIoKcBRCYN7r7e25vGyJuNTgdu" src="http://image.wufazhuce.com/FnZIoKcBRCYN7r7e25vGyJuNTgdu"/>
-                </div>
-                <p>到底是谁没打满分!？这剧都拿不到满分，观众也太严格了吧？</p>
-                <p>——关于《瑞克和莫蒂 第三季》</p>
-                <p>2017/10/31</p>
-            </div>
+                {
+                    Movie_item.map((item,index)=>{
+
+                        return(
+                            <div key={index}>
+                            <p>- 影视 -</p>
+                            <p>
+                                <a href="http://m.wufazhuce.com/movie/1202">{item.title}</a>
+                            </p>
+                            <p>文/{item.user_name}</p>
+                            <div>
+                                <img className="lazy_img resize_img img_center_x" data-src={item.img_url} src={item.img_url}/>
+                            </div>
+                            <p>{item.forward}</p>
+                            <p>关于{item.subtitle}</p>
+                            <p>{item.date}</p>
+                            </div>
+                        )
+                    })
+                }    
        </div>
 
         </Fragment>
         )
     }
+    componentDidMount(){
+        // fetch("/movie")
+        // .then(res=>res.json())
+        // .then((data)=>{
+        //     console.log(data);
+        // })
+        this.props.getData()
+    }
 }
 const mapStateToProps = (state)=>({
-    
+    Movie_item:state.reducer.Movie_item
  })
  const mapDispatchToProps =(dispatch)=>({
-  
+    getData(){
+        dispatch(get_data_action());
+    }
  })
 export default connect(mapStateToProps,mapDispatchToProps)(Movie)

@@ -1,7 +1,7 @@
 const proxy = require("http-proxy-middleware");
 module.exports = (app)=>{
-    app.use("/one",proxy({
-        target:"http://m.wufazhuce.com",
+    app.use("/movie",proxy({
+        target:"http://localhost:5000",
         changeOrigin:true
     }))
 }
